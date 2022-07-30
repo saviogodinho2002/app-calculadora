@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Calculadora</string>
+    <string name="plus_symbol">+</string>
+    <string name="sub_symbol">-</string>
+    <string name="div_symbol">/</string>
+    <string name="mul_symbol">*</string>
+    <string name="equal_symbol">=</string>
+    <string name="clean_symbol">AC</string>
+    <string name="op_parentheses_symbol">(</string>
+    <string name="cl_parentheses_symbol">)</string>
+
+    <string name="one_symbol">1</string>
+    <string name="two_symbol">2</string>
+    <string name="three_symbol">3</string>
+    <string name="four_symbol">4</string>
+    <string name="five_symbol">5</string>
+    <string name="six_symbol">6</string>
+    <string name="seven_symbol">7</string>
+    <string name="eight_symbol">8</string>
+    <string name="nine_symbol">9</string>
+    <string name="zero_symbol">0</string>
+    <string name="point_symbol">.</string>
+    <string name="exception_expression_message">Expressão mal formulada</string>
+</resources>
