@@ -198,7 +198,7 @@ class MainActivity : AppCompatActivity() {
             ButtonItem(
                 itemList.size,
                 null,
-                R.drawable.ic_launcher_foreground,
+                R.drawable.ic_baseline_backspace_24,
                 Color.BLUE,
                 ::backSpace
             )
@@ -217,7 +217,6 @@ class MainActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recycler_buttons);
         recyclerView.adapter = adapter;
         recyclerView.layoutManager = GridLayoutManager(this,4);
-
 
 
         editExpression = findViewById(R.id.edit_expression);

@@ -19,19 +19,19 @@ class MathExpression {
 
         private fun calculateMulDiv(expression: String): String {
             val match = RegexExp.mulDivRegex.findAll(expression);
-            val eqExpression = match.first().value;
+            val currentExpression  = match.first().value;
 
-            val matchNumber = RegexExp.numberSignedRegex.findAll(eqExpression)
+            val matchNumber = RegexExp.numberSignedRegex.findAll(currentExpression )
 
             val firstNumber = matchNumber.first().value;
             val secondNumber = matchNumber.elementAt(1).value
 
-            var result = when (RegexExp.operationSimbols.findAll(eqExpression).first().value) {
+            var result = when (RegexExp.operationSimbols.findAll(currentExpression ).first().value) {
                 "*" -> (firstNumber.toDouble() * secondNumber.toDouble()).toString()
                 "/" -> (firstNumber.toDouble() / secondNumber.toDouble()).toString()
                 else -> throw Exception("Expressão mal formulada");
             }
-            return searchExpressions(expression.replace(eqExpression, result));
+            return searchExpressions(expression.replace(currentExpression , result));
 
         }
         private fun calculateAddSub(expression: String): String {
