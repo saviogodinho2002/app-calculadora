@@ -238,6 +238,16 @@ class MainActivity : AppCompatActivity() {
                 backSpace();
                 return@doAfterTextChanged;
             }
+            regex = "[^\\(]?[*\\/]".toRegex();
+            if(regex.containsMatchIn(editExpression.text.toString())){
+                backSpace();
+                return@doAfterTextChanged;
+            }
+            regex = "[\\d.]\\(".toRegex();
+            if(regex.containsMatchIn(editExpression.text.toString())){
+                backSpace();
+                return@doAfterTextChanged;
+            }
             solveExpression();
         }
 
@@ -257,10 +267,7 @@ class MainActivity : AppCompatActivity() {
     private fun solveExpression(){ //botão = ou cada digitada
         try{
             var expression = editExpression.text.toString();
-            expression = "($expression)"
-            expression = MathExpression.fixParentheses(expression);
-            expression = MathExpression.removeMissingParentheses(expression)
-            editResult.setText(MathExpression.searchExpressions(expression).toDouble().toString())
+            editResult.setText(MathExpression.getResult(expression).toString())
         }catch (e:Exception){
 
         }
