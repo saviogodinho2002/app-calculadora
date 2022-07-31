@@ -10,12 +10,10 @@ class MathExpression {
             val finalResult = "^[-+]{0,1}(\\d+\\.\\d*|\\d*\\.\\d+|\\d+)[-+*/]*$".toRegex();
             val numberRegex = "(\\d+\\.\\d*|\\d*\\.\\d+|\\d+)".toRegex();
             val numberSignedRegex = "([+-]{0,1}(\\d+\\.\\d*|\\d*\\.\\d+|\\d+))".toRegex();
-            val matchMissNumber = "[\\(]+[+-]{0,1}(\\d+\\.\\d*|\\d*\\.\\d+|\\d+)[+-]{0,1}[\\)]+".toRegex();
+            val matchMissNumber = "[\\(]+[+-]{0,1}(\\d+\\.\\d*|\\d*\\.\\d+|\\d+)*[+-]{0,1}[\\)]+".toRegex();
             val operationSimbols = "[-+*/]".toRegex();
             val multSinal = "[-+]{2}".toRegex();
-
         }
-
 
         private fun calculateMulDiv(expression: String): String {
             val match = RegexExp.mulDivRegex.findAll(expression);
@@ -54,27 +52,33 @@ class MathExpression {
 
             val matchOpen = RegexExp.openParenthesesRegex.findAll(expression);
             val matchClose = RegexExp.closeParenthesesRegex.findAll(expression);
-            val open = matchOpen.first().range.first;
 
-            var nextClose:Int;
+            var open:Int;
+            var close:Int;
             var expBetween:String;
-
             var openCount:Int;
 
-            var iterator:Int = 0;
-            do{
-                nextClose = matchClose.elementAt(iterator).range.first;
-                expBetween = expression.subSequence(open + 1, nextClose).toString();
-                openCount = RegexExp.openParenthesesRegex.findAll(expBetween).count();
+            try{
+                var iterator: Int = 0;
+                do {
+                    open = matchOpen.elementAt(iterator).range.first;
+                    close = matchClose.first().range.first;
+                    expBetween = expression.subSequence(open + 1, close).toString();
 
-            }while ( openCount != iterator++);
+                    openCount = RegexExp.openParenthesesRegex.findAll(expBetween).count();
 
-            expBetween = expression.subSequence(open + 1, matchClose.elementAt( openCount ).range.first   ).toString();
+                    iterator++;
+                } while (openCount > 0);
+                expBetween = expression.subSequence(open + 1, matchClose.elementAt( openCount ).range.first   ).toString();
 
-            val nExp = expression.replace("($expBetween)", searchExpressions(expBetween));
+                val nExp = expression.replace("($expBetween)", searchExpressions(expBetween));
 
-            return searchExpressions(nExp);
+                return searchExpressions(nExp);
 
+            }catch (error: StringIndexOutOfBoundsException){
+
+                return searchParentheses("($expression)")
+            }
         }
         private fun sinalGame(expression: String):String{
             val matchSinals = RegexExp.multSinal.findAll(expression);
@@ -101,7 +105,7 @@ class MathExpression {
                     nExpression = "($nExpression";
                 }
             }else if(diff > 0){
-                repeat((diff)) {
+                repeat(diff) {
                     nExpression = "$nExpression)";
                 }
             }
@@ -124,7 +128,7 @@ class MathExpression {
             return removeMissingParentheses(nExpression);
         }
         fun getResult(expression: String):Double{
-            var exp:String = "($expression)";
+            var exp:String = expression;
             exp = fixParentheses(exp)
             exp = removeMissingParentheses(exp)
             return RegexExp.numberSignedRegex.findAll(
@@ -132,10 +136,9 @@ class MathExpression {
             ).first().value.toDouble();
         }
         private fun searchExpressions(expression: String): String {
-
             return when{
                 RegexExp.multSinal.containsMatchIn(expression) -> sinalGame(expression);
-                RegexExp.finalResult.containsMatchIn(expression) -> expression;
+                RegexExp.finalResult.containsMatchIn(expression)||expression.isEmpty() -> expression;
                 RegexExp.openParenthesesRegex.containsMatchIn(expression) || RegexExp.closeParenthesesRegex.containsMatchIn(expression) -> searchParentheses(expression);
                 RegexExp.mulDivRegex.containsMatchIn(expression)-> calculateMulDiv(expression);
                 RegexExp.addSubRegex.containsMatchIn(expression) -> calculateAddSub(expression);
