@@ -238,7 +238,7 @@ class MainActivity : AppCompatActivity() {
                 backSpace();
                 return@doAfterTextChanged;
             }
-            regex = "[^\\(]?[*\\/]".toRegex();
+            regex = "(^|[\\(]+)[*\\/]".toRegex();
             if(regex.containsMatchIn(editExpression.text.toString())){
                 backSpace();
                 return@doAfterTextChanged;
