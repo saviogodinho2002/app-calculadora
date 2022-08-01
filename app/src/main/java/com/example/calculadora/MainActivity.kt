@@ -223,33 +223,40 @@ class MainActivity : AppCompatActivity() {
         editResult = findViewById(R.id.edit_result);
 
         editExpression.doAfterTextChanged {
+            val expression = it.toString()
             var regex = "[\\d]*\\.[\\d.]*\\.".toRegex();
-            if(regex.containsMatchIn(editExpression.text.toString())){
+            if(regex.containsMatchIn(expression)){
                 backSpace();
                 return@doAfterTextChanged;
             }
             regex = "(([-+][0]{2,})|(^[0]{2,}))".toRegex();
-            if(regex.containsMatchIn(editExpression.text.toString())){
+            if(regex.containsMatchIn(expression)){
                 backSpace();
                 return@doAfterTextChanged;
             }
             regex = "([/*]{2,})".toRegex();
-            if(regex.containsMatchIn(editExpression.text.toString())){
+            if(regex.containsMatchIn(expression)){
                 backSpace();
                 return@doAfterTextChanged;
             }
             regex = "[+-]{1}[*\\/]".toRegex();
-            if(regex.containsMatchIn(editExpression.text.toString())){
+            if(regex.containsMatchIn(it.toString())){
                 backSpace();
                 return@doAfterTextChanged;
             }
             regex = "(^|[\\(]+)[*\\/]".toRegex();
-            if(regex.containsMatchIn(editExpression.text.toString())){
+            if(regex.containsMatchIn(it.toString())){
                 backSpace();
                 return@doAfterTextChanged;
             }
             regex = "[\\d.]\\(".toRegex();
-            if(regex.containsMatchIn(editExpression.text.toString())){
+            if(regex.containsMatchIn(it.toString())){
+                backSpace();
+                return@doAfterTextChanged;
+            }
+            regex = "\\(".toRegex();
+            val tempRegex = "\\)".toRegex();
+            if( regex.findAll(it.toString()).count() < tempRegex.findAll(it.toString()).count() ){
                 backSpace();
                 return@doAfterTextChanged;
             }

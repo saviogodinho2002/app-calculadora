@@ -36,7 +36,8 @@
             style="@style/EditTextForm"
             android:layout_height="60dp"
 
-            android:text="@string/zero_symbol"
+            android:hint="@string/zero_symbol"
+            android:textColorHint="@color/white"
             android:textSize="25sp"
 
 
