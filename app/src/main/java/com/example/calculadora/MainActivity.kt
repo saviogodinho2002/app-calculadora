@@ -33,8 +33,8 @@ class MainActivity : AppCompatActivity() {
                 itemList.size,
                 R.string.clean_symbol,
                 null,
-                Color.BLUE,
-                ::clean
+                Color.BLUE
+
             )
         )
         itemList.add(
@@ -42,8 +42,8 @@ class MainActivity : AppCompatActivity() {
                 itemList.size,
                  R.string.op_parentheses_symbol,
                  null,
-                 Color.BLUE,
-                null
+                 Color.BLUE
+
             )
         )
         itemList.add(
@@ -51,8 +51,8 @@ class MainActivity : AppCompatActivity() {
                 itemList.size,
                 R.string.cl_parentheses_symbol,
                 null,
-                Color.BLUE,
-                null
+                Color.BLUE
+
             )
         )
         itemList.add(
@@ -60,8 +60,8 @@ class MainActivity : AppCompatActivity() {
                 itemList.size,
                 R.string.equal_symbol,
                 null,
-                Color.BLUE,
-                ::equal
+                Color.BLUE
+
             )
         )
 
@@ -70,8 +70,8 @@ class MainActivity : AppCompatActivity() {
                 itemList.size,
                 R.string.seven_symbol,
                 null,
-                Color.BLUE,
-                null
+                Color.BLUE
+
             )
         )
         itemList.add(
@@ -79,8 +79,8 @@ class MainActivity : AppCompatActivity() {
                 itemList.size,
                 R.string.eight_symbol,
                 null,
-                Color.BLUE,
-                null
+                Color.BLUE
+
             )
         )
 
@@ -89,8 +89,8 @@ class MainActivity : AppCompatActivity() {
                 itemList.size,
                 R.string.nine_symbol,
                 null,
-                Color.BLUE,
-                null
+                Color.BLUE
+
             )
         )
         itemList.add(
@@ -98,8 +98,8 @@ class MainActivity : AppCompatActivity() {
                 itemList.size,
                 R.string.plus_symbol,
                 null,
-                Color.BLUE,
-                null
+                Color.BLUE
+
             )
         )
         itemList.add(
@@ -107,8 +107,8 @@ class MainActivity : AppCompatActivity() {
                 itemList.size,
                 R.string.four_symbol,
                 null,
-                Color.BLUE,
-                null
+                Color.BLUE
+
             )
         )
         itemList.add(
@@ -116,8 +116,8 @@ class MainActivity : AppCompatActivity() {
                 itemList.size,
                 R.string.five_symbol,
                 null,
-                Color.BLUE,
-                null
+                Color.BLUE
+
             )
         )
         itemList.add(
@@ -125,8 +125,8 @@ class MainActivity : AppCompatActivity() {
                 itemList.size,
                 R.string.six_symbol,
                 null,
-                Color.BLUE,
-                null
+                Color.BLUE
+
             )
         )
 
@@ -135,8 +135,8 @@ class MainActivity : AppCompatActivity() {
                 itemList.size,
                 R.string.sub_symbol,
                 null,
-                Color.BLUE,
-                null
+                Color.BLUE
+
             )
         )
         itemList.add(
@@ -144,8 +144,8 @@ class MainActivity : AppCompatActivity() {
                 itemList.size,
                 R.string.one_symbol,
                 null,
-                Color.BLUE,
-                null
+                Color.BLUE
+
             )
         )
         itemList.add(
@@ -153,8 +153,8 @@ class MainActivity : AppCompatActivity() {
                 itemList.size,
                 R.string.two_symbol,
                 null,
-                Color.BLUE,
-                null
+                Color.BLUE
+
             )
         )
         itemList.add(
@@ -162,8 +162,8 @@ class MainActivity : AppCompatActivity() {
                 itemList.size,
                 R.string.three_symbol,
                 null,
-                Color.BLUE,
-                null
+                Color.BLUE
+
             )
         )
         itemList.add(
@@ -171,8 +171,8 @@ class MainActivity : AppCompatActivity() {
                 itemList.size,
                 R.string.mul_symbol,
                 null,
-                Color.BLUE,
-                null
+                Color.BLUE
+
             )
         )
         itemList.add(
@@ -180,8 +180,8 @@ class MainActivity : AppCompatActivity() {
                 itemList.size,
                 R.string.point_symbol,
                 null,
-                Color.BLUE,
-                null
+                Color.BLUE
+
             )
         )
 
@@ -190,17 +190,16 @@ class MainActivity : AppCompatActivity() {
                 itemList.size,
                 R.string.zero_symbol,
                 null,
-                Color.BLUE,
-                null
+                Color.BLUE
+
             )
         )
         itemList.add(
             ButtonItem(
                 itemList.size,
-                null,
+                R.string.backspace_symbol,
                 R.drawable.ic_baseline_backspace_24,
-                Color.BLUE,
-                ::backSpace
+                Color.BLUE
             )
         )
         itemList.add(
@@ -208,11 +207,19 @@ class MainActivity : AppCompatActivity() {
                 itemList.size,
                 R.string.div_symbol,
                 null,
-                Color.BLUE,
-                null
+                Color.BLUE
             )
         )
-        val adapter = ButtonsAdapter(itemList);
+        val adapter = ButtonsAdapter(itemList){id,stringRes->
+            ///agora vai
+            when(id){
+                0 -> clean();
+                3 -> equal();
+                18 -> backSpace();
+                else -> write(getString(stringRes))
+
+            }
+        };
 
         recyclerView = findViewById(R.id.recycler_buttons);
         recyclerView.adapter = adapter;
@@ -289,7 +296,10 @@ class MainActivity : AppCompatActivity() {
         editResult.setText("");
     }
 
-    private inner class ButtonsAdapter(private val buttonsList:List<ButtonItem>):RecyclerView.Adapter<ButtonViewHolder>(){
+    private inner class ButtonsAdapter(
+        private val buttonsList:List<ButtonItem>,
+        private val onClick:(Int,Int)->Unit,
+        ):RecyclerView.Adapter<ButtonsAdapter.ButtonViewHolder>(){
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ButtonViewHolder {
             val view = layoutInflater.inflate(R.layout.item_btn_keyboard,parent,false)
             return ButtonViewHolder(view);
@@ -306,38 +316,34 @@ class MainActivity : AppCompatActivity() {
            return  buttonsList.size;
 
         }
+        private inner class ButtonViewHolder(itemView:View):RecyclerView.ViewHolder(itemView){
+            fun bind(item:ButtonItem){
+                val container:LinearLayout = itemView as LinearLayout;
+                val text:TextView = itemView.findViewById(R.id.txt_item);
+                val img:ImageView = itemView.findViewById(R.id.img_item);
 
-    }
-    private inner class ButtonViewHolder(itemView:View):RecyclerView.ViewHolder(itemView){
-        fun bind(item:ButtonItem){
-            val container:LinearLayout = itemView as LinearLayout;
-            val text:TextView = itemView.findViewById(R.id.txt_item);
-            val img:ImageView = itemView.findViewById(R.id.img_item);
+                container.setBackgroundColor(item.colorId);
 
-            container.setBackgroundColor(item.colorId);
-            item.symbolText?.let {
-                text.setText(it)
+                text.setText(item.symbolText)
                 text.visibility = View.VISIBLE
-            }
-            item.iconDrawable?.let {
-                img.setImageResource(item.iconDrawable!!)
-                img.visibility = View.VISIBLE;
-                text.visibility = View.GONE
-            }
 
-
-            container.setOnClickListener{
-                if(item.onClick != null) {
-                    item.onClick?.invoke()
-                    return@setOnClickListener;
+                item.iconDrawable?.let {
+                    img.setImageResource(item.iconDrawable!!)
+                    img.visibility = View.VISIBLE;
+                    text.visibility = View.GONE
                 }
-                write(text.text.toString())
 
-                Log.i("teste","clique normal")
+
+                container.setOnClickListener{
+
+                    onClick.invoke(item.itemID,item.symbolText)
+
+                }
 
             }
-
         }
+
     }
+
 
 }

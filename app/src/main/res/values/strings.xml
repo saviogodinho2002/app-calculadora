@@ -20,5 +20,6 @@
     <string name="nine_symbol">9</string>
     <string name="zero_symbol">0</string>
     <string name="point_symbol">.</string>
+    <string name="backspace_symbol">b</string>
     <string name="exception_expression_message">Expressão mal formulada</string>
 </resources>

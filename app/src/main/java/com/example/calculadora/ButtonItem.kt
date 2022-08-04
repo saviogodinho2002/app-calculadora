@@ -5,8 +5,7 @@ import androidx.annotation.StringRes
 
 data class ButtonItem(
     val itemID:Int,
-    @StringRes val symbolText: Int?,
+    @StringRes val symbolText: Int,
     @DrawableRes val iconDrawable: Int?,
-    val colorId:Int,
-    val onClick: (() -> Unit)?
+    val colorId:Int
     )
