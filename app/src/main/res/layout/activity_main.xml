@@ -23,12 +23,16 @@
 
         <EditText
             android:id="@+id/edit_expression"
+
             style="@style/EditTextForm"
             android:layout_height="200dp"
 
             android:hint="@string/zero_symbol"
-            android:textColorHint="@color/white"
 
+            android:scrollHorizontally="true"
+            android:scrollbars="vertical"
+
+            android:textColorHint="@color/white"
             android:textSize="60sp" />
 
         <EditText

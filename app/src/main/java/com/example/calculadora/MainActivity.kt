@@ -318,7 +318,7 @@ class MainActivity : AppCompatActivity() {
         }
         private inner class ButtonViewHolder(itemView:View):RecyclerView.ViewHolder(itemView){
             fun bind(item:ButtonItem){
-                val container:LinearLayout = itemView as LinearLayout;
+                val container:LinearLayout = itemView.findViewById(R.id.layout_item);
                 val text:TextView = itemView.findViewById(R.id.txt_item);
                 val img:ImageView = itemView.findViewById(R.id.img_item);
 
